@@ -9,6 +9,7 @@ Prerequisites
 -------------
 
 Python 2.7/3. and the following packages:
+
     - numpy 
     - matlplotlib
     - yaml
@@ -17,6 +18,7 @@ To Do's
 -------
 
 Lots of things still have to be done and this is only a preliminary release:
+
     - Add bibliography information to the data already included
     - Add a script to easily add new data to the repo
     - Provide better documentation
