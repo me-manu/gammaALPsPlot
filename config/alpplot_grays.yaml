@@ -1,0 +1,54 @@
+name:         'alpplot_gray'
+data: 'data/limits_data.yaml'
+cmap_limit : 'Blues'
+cmap_sens : 'Greens'
+cmap_hint: 'Greys'
+cmap_cosmo: 'BuPu'
+fontLegend: 'medium'
+legendLoc:      -1 # 'lower center'
+
+angleQCD: 20. # additional rotation of annotation ALP DM
+axion_m: 1.e-4
+
+angleALPDM: 15. # additional rotation of annotation ALP DM
+alp_dm_under: 1.3 # fraction how much annotation to be below DM line
+alp_dm_m: 2.e-11
+
+fontCol: 1
+frameOn: True
+lineDict:
+         color: '0.1'
+         lw: 1.
+         ls: '-'
+bounds:       [5.e-13,5e-4,1e-15,1e-10]
+fsrq: False 
+annotate:     True
+figsize: [9,6]
+skip:
+       - 'mWD_3'
+       - 'mWD_2'
+       #- 'mWD_1'
+       #- 'WDcool'
+       - 'CTA_Opac_3sigma_B50_AllSrc'
+       - 'CTA_50hrs_NGC1275'
+       - 'CAST'
+       - 'HC_CASTax2'
+       - 'Madmax-20d-20cm-3T'
+       - 'Madmax-4d-20cm-2T'
+       - 'Madmax-80d-1m2-5e4-10T'
+       - 'CTA_veritas_q0p95_cl0p95'
+       #- 'GC'
+       #- 'fermi-SN'
+       #- 'fermi-lat1'
+       #- 'fermi-lat2'
+       - 'LHAASO_2sigmaExclB5'
+      # - 'll_opacity_FR1p3_IGMF+ICM'
+       - ll_opacity_FR1p0_ICM
+       - ll_opacity_FR1p3_ICM
+       - ll_opacity_FR1p3_IGMF
+    #   - 'constraint_hess_cluster'
+    #   - 'constraint_hess_igmf'
+       - 'AMEGO'
+       - limits_cgrh
+       - 'ngc1275_strobe-x'
+       - 'x-ray_alp_limits'

@@ -1,0 +1,56 @@
+name:         'alpplot'
+#data: 'data/limits_data.npy'
+data: 'data/limits_data.yaml'
+Ns:           [1.]
+cmap_limit : 'Blues'
+cmap_sens : 'Greens'
+cmap_hint: 'Greys'
+cmap_cosmo: 'BuPu'
+alp_ns:       False
+angleQCD: 13.
+axion_m: 1.e-4
+fontLegend: 'medium'
+legendLoc:      -1 # 'lower center'
+angleALPDM: 10.
+alp_dm_under: 3.
+alp_dm_m: 2.e-11
+fontCol: 1
+frameOn: True
+pickleFile:   './data/TSmapData_q005TS22.77singleIrfs.pickle.gz'
+SNpickleFile:   './data/CL95_GC_l6.39_GTI5_Mass10_Bjansson.pickle.gz'
+lineDict:
+         color: '0.1'
+         lw: 1.
+         ls: '-'
+bounds:       [1.e-13,1e9,1e-18,1e-3]
+fsrq: False 
+annotate:     True
+figsize: [9,6]
+skip:
+       - 'mWD_3'
+       - 'mWD_2'
+       #- 'mWD_1'
+       #- 'WDcool'
+       - 'CTA_Opac_3sigma_B50_AllSrc'
+       - 'CTA_50hrs_NGC1275'
+       - 'CAST'
+       - 'HC_CASTax2'
+       - 'Madmax-20d-20cm-3T'
+       - 'Madmax-4d-20cm-2T'
+       - 'Madmax-80d-1m2-5e4-10T'
+       - 'CTA_veritas_q0p95_cl0p95'
+       #- 'GC'
+       #- 'fermi-SN'
+       #- 'fermi-lat1'
+       #- 'fermi-lat2'
+       - 'LHAASO_2sigmaExclB5'
+      # - 'll_opacity_FR1p3_IGMF+ICM'
+       - ll_opacity_FR1p0_ICM
+       - ll_opacity_FR1p3_ICM
+       - ll_opacity_FR1p3_IGMF
+    #   - 'constraint_hess_cluster'
+    #   - 'constraint_hess_igmf'
+       - 'AMEGO'
+       - limits_cgrh
+       - 'ngc1275_strobe-x'
+       - 'x-ray_alp_limits'
