@@ -27,3 +27,6 @@ Lots of things still have to be done and this is only a preliminary release:
 License
 -------
 ebltable is distributed under the modified BSD License.
+
+![](https://raw.githubusercontent.com/me-manu/gammaALPsPlot/master/plots/alpplot.png)
+
