@@ -126,7 +126,10 @@ if __name__ == "__main__":
     parser.add_argument('--conf', required = True, help = "Yaml config file")
     parser.add_argument('--limit_col', type = float, default = 0.3, help = "between 0 and 1, limit range of color map" )
     parser.add_argument('--overview', type = int, default = 1, help = "If true, don't plot all labels")
+    parser.add_argument('--seed', type = int, help = "Random seed for colors")
     parser.add_argument('--highlight', help = "the limit id to highlight with bright color")
+    parser.add_argument('--plotstyles', help="file lists of plotstyles",
+                        default = 'config/plotstyles.yaml')
     args = parser.parse_args()
     pars = yaml.load(open(args.conf))
     #lim = np.load(pars['data']).flat[0] 
@@ -137,6 +140,9 @@ if __name__ == "__main__":
     ax = fig.add_subplot(111)
     ax.set_xscale('log')
     ax.set_yscale('log')
+
+    if args.seed is not None:
+        np.random.seed(args.seed)
 
     try:
         cp_lim = plt.get_cmap(pars['cmap_limit'])
@@ -205,41 +211,8 @@ if __name__ == "__main__":
             #zorder = 0.2, ls = '--'
             #)
 # areas to be filled:
-    fill = ['GB', 'CMB_ODT','GL_Xray','BBN_Neff', 'BBN_D','CMB_EBLright', 
-            'EBL_Ressell', 'GL_Grin','EBL_gEBL1', 'EBL_Over', 'CMB_DEsu', 'CMB_mu', 'HB', 'SUN',
-            'curve_fischer_with_degeneracy_and_mass_effects_18Msun_jf', 'cast_env_2016',
-            'limits_cgrh',
-            'BeamDump_SLACE141','BeamDump_SLAC137','ep_invisible','LSW_combi', 'LSW_llElip',
-            'fermi-SN',
-            'fermi-lat1',
-            'WDcool',
-            'mWD_3','mWD_2','mWD_1',
-            'll_opacity_FR1p3_IGMF+ICM',
-            'curve_fischer_with_degeneracy_and_mass_effects_18Msun_jf',
-            'CTA_Opac_3sigma_B50_AllSrc',
-            'IAXO_CAST_scaled', 'ALPSII',
-            'CTA_50hrs_NGC1275', 'CTA_veritas_q0p95_cl0p95']
-    fill_between = ['llrbf','ADMX','axion_hf',
-            'constraint_hess_cluster','constraint_hess_igmf','ngc1275_x-ray',
-            'ngc1275_strobe-x',
-            'Madmax-80d-1m2-5e4-10T', 'Madmax-20d-20cm-3T', 'Madmax-4d-20cm-2T',
-            'GC',
-            ]
-    plot = [
-            'LHAASO_2sigmaExclB5',
-            'LHAASO_2sigmaExclB3'
-            ]
-    sens = ['CTA_Opac_3sigma_B50_AllSrc', 'CTA_50hrs_NGC1275', 'CTA_veritas_q0p95_cl0p95',
-                'ngc1275_strobe-x','x-ray_alp_limits',
-                'Madmax-80d-1m2-5e4-10T', 'Madmax-20d-20cm-3T', 'Madmax-4d-20cm-2T',
-                'LHAASO_2sigmaExclB5',
-                'LHAASO_2sigmaExclB3',
-                'IAXO_CAST_scaled', 'ALPSII',
-                'fermi-SN'
-                ]
-    hint = ['WDcool', 'll_opacity_FR1p3_IGMF+ICM']
-    cosmo = ['CMB_ODT','GL_Xray','BBN_Neff', 'BBN_D','CMB_EBLright', 
-            'EBL_Ressell', 'GL_Grin','EBL_gEBL1', 'EBL_Over', 'CMB_DEsu', 'CMB_mu']
+    with open(args.plotstyles) as f:
+        plotstyles = yaml.load(f)
 # plot fermi hole
     # get the patch of the hole
     patch_hole = ax.fill(10.**lim['fermi-lat2']['log_m'], 10.**lim['fermi-lat2']['log_g'],
@@ -262,13 +235,13 @@ if __name__ == "__main__":
 
 # plot everything else
     for k,v in list(lim.items()):
-        if k in sens:
+        if k in plotstyles['sens']:
             fc = cp_sen((np.random.rand(1)[0] - 1.) * args.limit_col + 1.)
             alpha = 0.5
-        elif k in hint:
+        elif k in plotstyles['hint']:
             fc = cp_hint((np.random.rand(1)[0] - 1.) * args.limit_col + 1.)
             alpha = 0.3
-        elif k in cosmo:
+        elif k in plotstyles['cosmo']:
             fc = cp_cosmo((np.random.rand(1)[0] - 1.) * args.limit_col + 1.)
             alpha = 1.
         else:
@@ -285,7 +258,7 @@ if __name__ == "__main__":
                     ha = 'center', va = 'center',
                     zorder = v['z'] + 0.1)
 
-        if k in fill and not k in pars['skip']:
+        if k in plotstyles['fill'] and not k in pars['skip']:
 
             for clip_path in [patch_hole[0], None]:
                 if k == 'fermi-lat1' and clip_path is not None:
@@ -304,7 +277,7 @@ if __name__ == "__main__":
                     ls = ls,
                     )
 
-        elif k in fill_between and not k in pars['skip']:
+        elif k in plotstyles['fill_between'] and not k in pars['skip']:
             patch = ax.fill_between(10.**v['log_m'],10.**v['log_g'],
                 y2 = 1.,
                 facecolor = fc,
@@ -314,7 +287,7 @@ if __name__ == "__main__":
                 lw = lw
                 )
 
-        elif k in plot and not k in pars['skip']:
+        elif k in plotstyles['plot'] and not k in pars['skip']:
             patch = ax.plot(10.**v['log_m'],10.**v['log_g'],
                 color = fc,
                 alpha = alpha, 
@@ -375,3 +348,4 @@ if __name__ == "__main__":
         top = 0.95, right = 0.95)
     fig.savefig('plots/{0:s}.pdf'.format(pars['name']), format = 'pdf')
     fig.savefig('plots/{0:s}.png'.format(pars['name']), format = 'png')
+    plt.close("all")
